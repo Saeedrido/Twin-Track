@@ -1,0 +1,43 @@
+.services-section {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.service-card {
+  background: #fff;
+  border: 1px solid #e5e5e5;
+  border-radius: 10px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+.service-icon {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 60px;
+  width: 60px;
+  margin: 0 auto;
+}
+
+.service-subtitle {
+  font-size: 0.85rem;
+  color: #888;
+}
+
+.service-title {
+  font-size: 1.1rem;
+}
+
+.service-btn {
+  border: 1px solid #ccc;
+  background: transparent;
+  border-radius: 5px;
+  padding: 0.25rem 0.5rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+}

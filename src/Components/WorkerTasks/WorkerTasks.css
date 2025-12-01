@@ -1,0 +1,167 @@
+/* src/Components/WorkerTasks/WorkerTasks.css */
+
+/* Colors & basic theme similar to your dashboard */
+:root {
+  --bg: #f8fafc;
+  --card: #fff;
+  --muted: #6b7280;
+  --accent: #2563eb; /* blue */
+  --success: #10b981;
+  --danger: #ef4444;
+  --text: #111827;
+}
+
+.wt-page {
+  padding: 24px;
+  background: var(--bg);
+  min-height: calc(100vh - 0px);
+  color: var(--text);
+}
+
+/* header */
+.wt-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+.wt-header h2 {
+  margin: 0;
+  font-size: 20px;
+}
+.wt-header .muted {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* project section */
+.wt-project-section {
+  background: var(--card);
+  border-radius: 10px;
+  padding: 14px;
+  margin-bottom: 18px;
+  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+}
+
+.wt-project-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.wt-project-title {
+  margin: 0;
+  font-size: 16px;
+}
+.wt-project-meta .wt-supervisors {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+/* table */
+.wt-table-wrap {
+  overflow-x: auto;
+}
+.wt-table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 880px;
+}
+.wt-table th,
+.wt-table td {
+  text-align: left;
+  padding: 10px 12px;
+  border-top: 1px solid #eef2f7;
+  vertical-align: top;
+  font-size: 14px;
+}
+.wt-table thead th {
+  background: transparent;
+  color: #374151;
+  font-weight: 600;
+}
+
+/* task name column */
+.wt-task-name .wt-tname {
+  font-weight: 600;
+}
+.wt-sub {
+  font-size: 13px;
+  color: var(--muted);
+}
+
+/* status pill */
+.status-pill {
+  padding: 6px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  display: inline-block;
+  color: #fff;
+}
+.status-pill.completed { background: var(--success); }
+.status-pill.inprogress { background: #f59e0b; } /* amber */
+.status-pill.notstarted, .status-pill.pending { background: var(--muted); }
+
+/* materials list inside a cell */
+.wt-materials-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.wt-material-row {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  flex-wrap: wrap;
+}
+.wt-m-name { font-weight: 600; }
+.wt-m-qty, .wt-m-rem { color: var(--muted); font-size: 13px; }
+.wt-m-actions { margin-left: auto; }
+
+/* small buttons for modal */
+.tt-small-btn {
+  padding: 6px 8px;
+  border-radius: 6px;
+  background: transparent;
+  border: 1px solid #e6eefb;
+  cursor: pointer;
+}
+.tt-small-btn.outline { background: transparent; border: 1px solid #cbd5e1; }
+
+/* modal overlay */
+.wt-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(2,6,23,0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 4000;
+}
+.wt-modal {
+  background: var(--card);
+  padding: 18px;
+  border-radius: 8px;
+  width: 420px;
+  max-width: calc(100% - 32px);
+  box-shadow: 0 8px 30px rgba(2,6,23,0.15);
+}
+.wt-modal h3 { margin: 0 0 6px 0; }
+.wt-modal .muted { color: var(--muted); font-size: 13px; margin-bottom: 10px; }
+.wt-label { display: block; font-size: 13px; margin-bottom: 6px; color: #334155; }
+.wt-input { width: 100%; padding: 8px 10px; margin-bottom: 12px; border-radius: 6px; border: 1px solid #e6eefb; }
+.wt-modal-actions { display: flex; gap: 8px; justify-content: flex-end; }
+
+/* small utils */
+.muted { color: var(--muted); }
+.btn { padding: 8px 12px; border-radius: 8px; cursor: pointer; border: none; }
+.btn-primary { background: var(--accent); color: white; }
+.btn-outline { background: transparent; border: 1px solid #cbd5e1; color: #111827; }
+.btn-sm { padding: 6px 10px; font-size: 13px; }
+
+/* responsive */
+@media (max-width: 900px) {
+  .wt-table { min-width: 720px; }
+  .wt-material-row { flex-direction: column; align-items: flex-start; gap: 6px; }
+  .wt-project-row { flex-direction: column; gap: 8px; align-items: flex-start; }
+}

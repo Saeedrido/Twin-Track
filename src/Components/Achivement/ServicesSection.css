@@ -1,0 +1,73 @@
+.construction-stats-section {
+  position: relative;
+  width: 100%;
+  min-height: 120vh;
+  background: url('/public/Images/twin-track-img-2.jpg') no-repeat center center/cover;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  color: #fff;
+}
+
+.construction-stats-overlay {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.4); /* dark overlay for text readability */
+  padding: 60px 20px 40px;
+}
+
+.construction-stats-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 40px;
+  text-align: center;
+}
+
+.construction-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.construction-stat-icon {
+  font-size: 40px;
+  color: #ffc107;
+  margin-bottom: 10px;
+}
+
+.construction-stat h3 {
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+}
+
+.construction-stat p {
+  font-size: 16px;
+  margin: 5px 0 0;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+  .construction-stats-section {
+    min-height: 70vh;
+  }
+
+  .construction-stat h3 {
+    font-size: 24px;
+  }
+}
+
+@media (max-width: 768px) {
+  .construction-stats-content {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .construction-stat h3 {
+    font-size: 22px;
+  }
+
+  .construction-stat p {
+    font-size: 14px;
+  }
+}

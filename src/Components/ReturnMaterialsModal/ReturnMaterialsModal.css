@@ -1,0 +1,126 @@
+/* === OVERLAY === */
+.wtm-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* === MODAL BOX === */
+.wtm-modal {
+  background: #fff;
+  width: 90%;
+  max-width: 420px;
+  padding: 25px;
+  border-radius: 14px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  animation: scaleIn 0.25s ease;
+  position: relative;
+}
+
+/* === HEADER === */
+.wtm-modal h3 {
+  margin: 0 0 10px 0;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+/* Muted text style */
+.muted {
+  color: #777;
+  font-size: 14px;
+  margin-bottom: 8px;
+}
+
+/* === FORM LABEL === */
+.wtm-label {
+  display: block;
+  font-size: 14px;
+  margin-top: 12px;
+  margin-bottom: 5px;
+  font-weight: 500;
+}
+
+/* === INPUT FIELD === */
+.wtm-input {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d7d7d7;
+  border-radius: 10px;
+  font-size: 15px;
+  outline: none;
+  transition: border-color 0.2s ease;
+}
+
+.wtm-input:focus {
+  border-color: #007bff;
+}
+
+/* === ACTION BUTTONS === */
+.wtm-actions {
+  margin-top: 20px;
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+/* Reuse existing button classes but ensure consistency */
+.btn {
+  padding: 8px 14px;
+  font-size: 14px;
+  min-height: 38px;
+  border-radius: 10px !important;
+}
+
+/* You can customize colors if needed */
+.btn-primary {
+  background: #007bff !important;
+  color: #fff !important;
+  border: none !important;
+}
+
+.btn-outline {
+  background: #fff !important;
+  border: 1px solid #777 !important;
+  color: #333 !important;
+}
+
+/* === ANIMATIONS === */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    transform: scale(0.93);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+/* === MOBILE FIXES === */
+@media (max-width: 480px) {
+  .wtm-modal {
+    width: 92%;
+    padding: 20px;
+  }
+
+  .wtm-modal h3 {
+    font-size: 18px;
+  }
+}

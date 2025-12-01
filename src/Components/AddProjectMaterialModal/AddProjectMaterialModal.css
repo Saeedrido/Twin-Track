@@ -1,0 +1,55 @@
+.tt-modal-head h3 {
+  font-size: 1.3rem;
+  font-weight: 600;
+}
+
+.tt-modal-head p.muted {
+  color: #6b7280;
+  margin-bottom: 1rem;
+}
+
+.tt-row label {
+  font-weight: 500;
+  display: block;
+  margin-bottom: 6px;
+}
+
+.tt-row input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+}
+
+.tt-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.5rem;
+  margin-top: 1.2rem;
+}
+
+.tt-create {
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  padding: 0.5rem 1.2rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tt-create:hover {
+  background-color: #1d4ed8;
+}
+
+.tt-cancel {
+  background: #f3f4f6;
+  color: #111827;
+  border: 1px solid #d1d5db;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.tt-cancel:hover {
+  background: #e5e7eb;
+}

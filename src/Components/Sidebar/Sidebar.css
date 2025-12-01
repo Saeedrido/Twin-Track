@@ -1,0 +1,184 @@
+/* .tt-sidebar {
+  width: 230px;
+  background: #1a1f36;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: 0.3s ease;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+}
+
+.tt-logo {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.tt-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tt-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  color: #d0d4e0;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+.tt-menu-item:hover {
+  background: #2b3050;
+  color: #fff;
+}
+
+.tt-menu-item.active {
+  background: #394070;
+  color: #fff;
+  font-weight: 600;
+}
+
+.tt-menu-item svg {
+  font-size: 18px;
+}
+
+.tt-logout {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    color: #f87171;
+    font-weight: bold;
+}
+
+.tt-logout:hover {
+    color: #fca5a5;
+} */
+
+.tt-sidebar {
+  width: 230px;
+  background: #1a1f36;
+  color: #fff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  padding: 20px 0;
+  position: fixed;
+  left: 0;
+  top: 0;
+  transition: transform 0.3s ease;
+  box-shadow: 2px 0 6px rgba(0, 0, 0, 0.15);
+  z-index: 999; 
+}
+
+.tt-logo {
+  font-size: 22px;
+  font-weight: 700;
+  text-align: center;
+  color: #fff;
+  margin-bottom: 40px;
+  letter-spacing: 1px;
+}
+
+.tt-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.tt-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 24px;
+  color: #d0d4e0;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.25s ease;
+}
+
+.tt-menu-item:hover {
+  background: #2b3050;
+  color: #fff;
+}
+
+.tt-menu-item.active {
+  background: #394070;
+  color: #fff;
+  font-weight: 600;
+}
+
+.tt-menu-item svg {
+  font-size: 18px;
+}
+
+.tt-logout {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  color: #f87171;
+  font-weight: bold;
+}
+
+.tt-logout:hover {
+  color: #fca5a5;
+}
+
+.hamburger-btn {
+  display: none; 
+}
+
+@media (max-width: 768px) {
+  .hamburger-btn {
+    display: flex;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: #1a1f36;
+    padding: 10px;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 24px;
+    z-index: 1000;
+    cursor: pointer;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .tt-sidebar {
+    transform: translateX(-100%);
+  }
+
+  .tt-sidebar.open {
+    transform: translateX(0);
+  }
+  
+  .tt-menu-item {
+    padding: 14px 20px;
+    font-size: 16px;
+  }
+
+  .tt-logout {
+    left: 20px;
+    bottom: 20px;
+  }
+}

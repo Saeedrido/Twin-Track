@@ -1,0 +1,101 @@
+
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body, html {
+  height: 100%;
+  width: 100%;
+  font-family: 'Poppins', sans-serif;
+  background: #f8f9fb;
+  overflow-x: hidden;
+}
+
+/* Hero Section */
+.hero-container {
+  height: 100vh;
+  width: 100%;
+  background: radial-gradient(circle at center, #ffffff 0%, #f1f3f6 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  position: relative;
+}
+
+/* Optional subtle overlay effect */
+.overlay {
+  background: rgba(255, 255, 255, 0.7);
+  padding: 40px;
+  border-radius: 12px;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+/* Title */
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: #0b1831;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+}
+
+/* Line below the title */
+.hero-line {
+  width: 80px;
+  height: 3px;
+  background-color: #0b1831;
+  border: none;
+  margin: 0.5rem auto;
+}
+
+/* Subtitle */
+.hero-subtitle {
+  font-size: 1rem;
+  color: #0b1831;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+/* Fade animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* 🌍 Responsive Design */
+
+/* Tablets */
+@media (max-width: 992px) {
+  .hero-title {
+    font-size: 2.5rem;
+  }
+  .hero-subtitle {
+    font-size: 0.95rem;
+    letter-spacing: 1.5px;
+  }
+}
+
+/* Phones */
+@media (max-width: 576px) {
+  .overlay {
+    padding: 25px;
+  }
+  .hero-title {
+    font-size: 2rem;
+  }
+  .hero-subtitle {
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+  }
+}

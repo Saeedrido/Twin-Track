@@ -1,0 +1,63 @@
+.login-page {
+  position: relative;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+.login-container {
+  position: relative;
+  z-index: 1; 
+  max-width: 400px;
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 8px;
+}
+.login-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-size: cover;
+  background-position: center;
+  filter: blur(5px);
+  z-index: 0;
+}
+.login-logo {
+  width: 50px;
+  height: 50px;
+}
+
+.forgot-password {
+  font-size: 0.9rem;
+  color: #007bff;
+}
+
+.forgot-password:hover {
+  text-decoration: underline;
+}
+
+/* RESPONSIVENESS */
+@media (max-width: 768px) {
+  .login-container {
+    width: 90%;
+    padding: 30px 20px;
+  }
+
+  .login-page {
+    background-position: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .login-container {
+    padding: 25px 15px;
+  }
+
+  .login-logo {
+    width: 40px;
+    height: 40px;
+  }
+}

@@ -1,0 +1,26 @@
+.home-container {
+  height: 100vh;
+  background: linear-gradient(135deg, #f5f5f5, #ffeaa7);
+}
+
+.home-card {
+  background: #fff;
+  max-width: 450px;
+  border-radius: 20px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1);
+}
+
+.logo-section h2 {
+  letter-spacing: 1px;
+}
+
+.btn-warning {
+  border: none;
+  border-radius: 10px;
+  transition: 0.3s ease;
+}
+
+.btn-warning:hover {
+  background-color: #ffca2c !important;
+  box-shadow: 0 4px 10px rgba(255, 193, 7, 0.5);
+}
