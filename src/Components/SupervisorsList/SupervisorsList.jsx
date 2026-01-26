@@ -28,7 +28,7 @@ const SupervisorsList = () => {
   const [currentSupervisor, setCurrentSupervisor] = useState(null);
   const [allowedProjects, setAllowedProjects] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [filterStatus, setFilterStatus] = useState("All");
+  const [filterStatus] = useState("All");
   const [loading, setLoading] = useState(false);
   const [fetchError, setFetchError] = useState(false);
 

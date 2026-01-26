@@ -13,7 +13,6 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import AddNewProject from "../Add-New-Project/AddNewProject";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
-import ViewAllMaterialsModal from "../ViewAllMaterialsModal/ViewAllMaterialsModal";
 import EmptyState from "../UI/EmptyState/EmptyState";
 import ErrorState from "../UI/ErrorState/ErrorState";
 import LoadingState from "../UI/LoadingState/LoadingState";
@@ -32,8 +31,6 @@ const ProjectsList = () => {
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
   const [projectToDelete, setProjectToDelete] = useState(null);
-  const [selectedProject, setSelectedProject] = useState(null);
-  const [showViewMaterialsModal, setShowViewMaterialsModal] = useState(false);
   const [deletingProjectId, setDeletingProjectId] = useState(null);
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -96,6 +93,7 @@ const ProjectsList = () => {
     };
 
     fetchProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [API_BASE_URL]);
 
   // ✅ Add newly created project to UI
@@ -389,14 +387,6 @@ const ProjectsList = () => {
           message={`Are you sure you want to delete "${projectToDelete.name}"? This action cannot be undone.`}
           onConfirm={handleDelete}
           onCancel={() => setShowDeleteModal(false)}
-        />
-      )}
-
-      {/* ✅ Materials Modal */}
-      {showViewMaterialsModal && selectedProject && (
-        <ViewAllMaterialsModal
-          project={selectedProject}
-          onClose={() => setShowViewMaterialsModal(false)}
         />
       )}
     </div>

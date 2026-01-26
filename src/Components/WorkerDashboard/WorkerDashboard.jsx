@@ -30,7 +30,6 @@ export default function WorkerDashboard() {
 
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
-  const [submittingProject, setSubmittingProject] = useState(false);
   const currentWorkerId = localStorage.getItem("userId");
   const loadAll = () => {
     fetchWorkerProjects();      // reload projects
@@ -136,7 +135,6 @@ export default function WorkerDashboard() {
   };
 
   const handleSubmitProject = async (projectId, dto) => {
-    setSubmittingProject(true);
     try {
       const token = localStorage.getItem("authToken");
 
@@ -146,7 +144,7 @@ export default function WorkerDashboard() {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(dto), // <-- send DTO directly, not { dto }
+        body: JSON.stringify(dto),
       });
 
       const data = await res.json().catch(() => ({}));
@@ -158,12 +156,10 @@ export default function WorkerDashboard() {
 
       toast.success("Project submitted successfully!");
       setOpenProjectSubmissionModal(false);
-      loadAll(); // reload projects/tasks
+      loadAll();
     } catch (err) {
       console.error("Network error submitting project", err);
       toast.error("Network error submitting project");
-    } finally {
-      setSubmittingProject(false);
     }
   };
 
