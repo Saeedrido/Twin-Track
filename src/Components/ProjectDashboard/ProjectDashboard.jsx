@@ -11,13 +11,9 @@ import {
   FiUser,
   FiPlus,
   FiChevronLeft,
-  FiPlusCircle,
   FiAlertCircle,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
-import EmptyState from "../UI/EmptyState/EmptyState";
-import ErrorState from "../UI/ErrorState/ErrorState";
-import LoadingState from "../UI/LoadingState/LoadingState";
 import "./ProjectDashboard.css";
 import ModalShell from "../Modals/ModalShell";
 import AddTaskModal from "../Modals/Add-New-Task";
@@ -57,7 +53,7 @@ const ProjectDashboard = () => {
   const [activeTab, setActiveTab] = useState("Tasks");
   const [loadingProject, setLoadingProject] = useState(false);
   const [loadingTasks, setLoadingTasks] = useState(false);
-  const [loadingAssignments, setLoadingAssignments] = useState(false);
+  const [, setLoadingAssignments] = useState(false);
   /* Modals state */
   const [isAddTaskOpen, setIsAddTaskOpen] = useState(false);
   const [showWorkerAssign, setShowWorkerAssign] = useState(false);
@@ -83,12 +79,14 @@ const ProjectDashboard = () => {
     fetchTasks();
     fetchAssignments();
     fetchProjectMaterials();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [projectId]);
 
   useEffect(() => {
     if (activeTab === "Work Logs") {
       fetchWorkerLogs();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [activeTab]);
 
   const authHeaders = () =>
@@ -484,7 +482,6 @@ const ProjectDashboard = () => {
   /* UI helpers */
   const openAssignWorker = (task) => setAssignWorkerTask(task);
   const openWorkersModal = (task) => setSelectedTaskForWorkers(task);
-  const openMaterialsModal = (task) => setSelectedTaskMaterials(task);
   const handleBack = () => navigate(-1);
 
   return (
