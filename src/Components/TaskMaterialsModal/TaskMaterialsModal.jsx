@@ -36,6 +36,7 @@ const TaskMaterialsModal = ({ task, onClose }) => {
     };
 
     fetchTaskDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [task]);
 
   return (

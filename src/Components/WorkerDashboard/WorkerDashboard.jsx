@@ -6,7 +6,6 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import EmptyState from "../UI/EmptyState/EmptyState";
 import LoadingState from "../UI/LoadingState/LoadingState";
-import ErrorState from "../UI/ErrorState/ErrorState";
 import "./WorkerDashboard.css";
 import ProjectSubmissionModal from "../ProjectSubmissionModal/ProjectSubmissionModal";
 
@@ -44,6 +43,7 @@ export default function WorkerDashboard() {
   useEffect(() => {
     if (!token) return;
     fetchWorkerProjects();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [token]);
 
   const fetchWorkerProjects = async () => {

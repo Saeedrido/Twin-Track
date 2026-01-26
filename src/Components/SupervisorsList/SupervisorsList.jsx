@@ -64,6 +64,7 @@ const SupervisorsList = () => {
 
   useEffect(() => {
     fetchSupervisors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const toggleProjectSelect = (supervisorId, projectId) => {
