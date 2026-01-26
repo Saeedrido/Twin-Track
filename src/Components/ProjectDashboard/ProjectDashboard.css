@@ -246,41 +246,110 @@
 }
 
 
+/* ==================== Enhanced Modal Styles ==================== */
 .pd-modal-backdrop {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.4);
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 3000;
+  z-index: var(--tt-z-modal-backdrop);
 }
 
 .pd-modal {
-  width: 450px;
+  background: var(--tt-bg-alt);
+  border-radius: var(--tt-radius-lg);
+  box-shadow: var(--tt-shadow-xl);
   max-height: 90vh;
-  overflow-y: auto;
-  background: #fff;
-  border-radius: 12px;
-  padding: 18px;
-  box-shadow: 0 6px 20px rgba(0,0,0,0.15);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.pd-modal--small {
+  width: 90%;
+  max-width: 400px;
+}
+
+.pd-modal--medium {
+  width: 90%;
+  max-width: 600px;
+}
+
+.pd-modal--large {
+  width: 90%;
+  max-width: 800px;
 }
 
 .pd-modal-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
+  padding: var(--tt-lg) var(--tt-xl);
+  border-bottom: 1px solid var(--tt-border);
+  flex-shrink: 0;
+}
+
+.pd-modal-header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--tt-md);
+  flex: 1;
+}
+
+.pd-modal-icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tt-accent-light);
+  color: var(--tt-accent);
+  border-radius: var(--tt-radius-md);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.pd-modal-title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--tt-text);
+  margin: 0;
 }
 
 .pd-modal-close {
-  border: none;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   background: transparent;
-  font-size: 20px;
+  border: none;
+  color: var(--tt-text-muted);
+  border-radius: var(--tt-radius-sm);
   cursor: pointer;
+  transition: var(--tt-transition-fast);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.pd-modal-close:hover {
+  background: var(--tt-bg-muted);
+  color: var(--tt-text);
 }
 
 .pd-modal-body {
-  margin-top: 14px;
+  padding: var(--tt-xl);
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.pd-modal--small .pd-modal-body {
+  padding: var(--tt-lg);
 }
 
 

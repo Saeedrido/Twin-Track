@@ -20,21 +20,21 @@ export default function ReturnMaterialsModal({ open, onClose, task, materials })
     const parsedQty = parseInt(qty, 10);
 
     if (!parsedQty || parsedQty <= 0) {
-      toast.warn("Enter a valid return quantity");
+      toast.warn("Please enter a valid quantity to return.");
       return;
     }
 
     const material = materials.find((m) => String(m.id) === String(selectedMaterialId));
 
     if (!material) {
-      toast.error("Please select a valid material");
+      toast.error("Please select a material to return.");
       return;
     }
 
     // ✅ FIX HERE — use real workerId
-    const workerId = localStorage.getItem("userId");   
+    const workerId = localStorage.getItem("userId");
     if (!workerId) {
-      toast.error("Worker ID missing. Please log in again.");
+      toast.error("Your session has expired. Please log in again.");
       return;
     }
 
@@ -76,7 +76,7 @@ export default function ReturnMaterialsModal({ open, onClose, task, materials })
       onClose();
     } catch (err) {
       console.error("Return Error:", err);
-      toast.error("Network error returning material");
+      toast.error("Couldn't connect to server. Check your connection.");
     } finally {
       setSubmitting(false);
     }
@@ -85,13 +85,13 @@ export default function ReturnMaterialsModal({ open, onClose, task, materials })
   return (
     <div className="wtm-overlay" onClick={onClose}>
       <div className="wtm-modal" onClick={(e) => e.stopPropagation()}>
-        <h3>Return Remaining Material</h3>
+        <h3>Return Materials</h3>
 
         <p className="muted">
           Task: <strong>{task?.name}</strong>
         </p>
 
-        <label className="wtm-label">Select Material</label>
+        <label className="wtm-label">Choose Material to Return</label>
         <select
           className="wtm-input"
           value={selectedMaterialId}
@@ -121,7 +121,7 @@ export default function ReturnMaterialsModal({ open, onClose, task, materials })
           </button>
 
           <button className="btn btn-primary" onClick={handleSubmit} disabled={submitting}>
-            {submitting ? "Returning..." : "Submit Return"}
+            {submitting ? "Returning..." : "Return Material"}
           </button>
         </div>
       </div>

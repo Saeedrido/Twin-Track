@@ -1,21 +1,10 @@
 /* src/Components/WorkerTasks/WorkerTasks.css */
 
-/* Colors & basic theme similar to your dashboard */
-:root {
-  --bg: #f8fafc;
-  --card: #fff;
-  --muted: #6b7280;
-  --accent: #2563eb; /* blue */
-  --success: #10b981;
-  --danger: #ef4444;
-  --text: #111827;
-}
-
 .wt-page {
-  padding: 24px;
-  background: var(--bg);
+  padding: var(--tt-xl);
+  background: var(--tt-bg);
   min-height: calc(100vh - 0px);
-  color: var(--text);
+  color: var(--tt-text);
 }
 
 /* header */
@@ -23,24 +12,25 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 18px;
+  margin-bottom: var(--tt-lg);
 }
 .wt-header h2 {
   margin: 0;
   font-size: 20px;
+  color: var(--tt-text);
 }
 .wt-header .muted {
-  color: var(--muted);
+  color: var(--tt-text-muted);
   font-size: 13px;
 }
 
 /* project section */
 .wt-project-section {
-  background: var(--card);
-  border-radius: 10px;
-  padding: 14px;
-  margin-bottom: 18px;
-  box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04);
+  background: var(--tt-bg-alt);
+  border-radius: var(--tt-radius-md);
+  padding: var(--tt-md);
+  margin-bottom: var(--tt-lg);
+  box-shadow: var(--tt-shadow-sm);
 }
 
 .wt-project-row {
@@ -52,9 +42,10 @@
 .wt-project-title {
   margin: 0;
   font-size: 16px;
+  color: var(--tt-text);
 }
 .wt-project-meta .wt-supervisors {
-  color: var(--muted);
+  color: var(--tt-text-muted);
   font-size: 13px;
 }
 
@@ -71,13 +62,13 @@
 .wt-table td {
   text-align: left;
   padding: 10px 12px;
-  border-top: 1px solid #eef2f7;
+  border-top: 1px solid var(--tt-border);
   vertical-align: top;
   font-size: 14px;
 }
 .wt-table thead th {
   background: transparent;
-  color: #374151;
+  color: var(--tt-text);
   font-weight: 600;
 }
 
@@ -87,7 +78,7 @@
 }
 .wt-sub {
   font-size: 13px;
-  color: var(--muted);
+  color: var(--tt-text-muted);
 }
 
 /* status pill */
@@ -98,9 +89,9 @@
   display: inline-block;
   color: #fff;
 }
-.status-pill.completed { background: var(--success); }
-.status-pill.inprogress { background: #f59e0b; } /* amber */
-.status-pill.notstarted, .status-pill.pending { background: var(--muted); }
+.status-pill.completed { background: var(--tt-success); }
+.status-pill.inprogress { background: var(--tt-warning); }
+.status-pill.notstarted, .status-pill.pending { background: var(--tt-text-muted); }
 
 /* materials list inside a cell */
 .wt-materials-list {

@@ -12,8 +12,12 @@ import {
   FiPlus,
   FiChevronLeft,
   FiPlusCircle,
+  FiAlertCircle,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import ErrorState from "../UI/ErrorState/ErrorState";
+import LoadingState from "../UI/LoadingState/LoadingState";
 import "./ProjectDashboard.css";
 import ModalShell from "../Modals/ModalShell";
 import AddTaskModal from "../Modals/Add-New-Task";
@@ -40,7 +44,7 @@ const ProjectDashboard = () => {
   const [project, setProject] = useState(
     location.state?.project ?? {
       id: projectId,
-      name: "Loading...",
+      name: "Loading project...",
       description: "",
       status: "Unknown",
       code: projectId ? `PRJ-${projectId}` : "PRJ-UNKNOWN",
@@ -96,7 +100,7 @@ const ProjectDashboard = () => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/v1/projects/${projectId}`, { headers: authHeaders() });
       if (!res.ok) {
-        toast.warn("Failed to load project.");
+        toast.error("Couldn't load project. Please try again.");
         return;
       }
       const payload = await res.json();
@@ -110,8 +114,8 @@ const ProjectDashboard = () => {
         materials: dto.materials ?? prev.materials ?? [],
       }));
     } catch (err) {
-      console.error("Error loading project:", err);
-      toast.error("Error loading project.");
+      console.error("Couldn't load project:", err);
+      toast.error("Couldn't load project. Please check your connection.");
     } finally {
       setLoadingProject(false);
     }
@@ -130,7 +134,7 @@ const ProjectDashboard = () => {
 
       if (!res.ok) {
         console.warn("Server returned error:", rawText);
-        toast.warn("Failed to fetch worker logs.");
+        toast.warn("Couldn't fetch worker logs.");
         return;
       }
 
@@ -160,8 +164,8 @@ const ProjectDashboard = () => {
 
       setWorkerLogs(logsList);
     } catch (err) {
-      console.error("Error loading worker logs:", err);
-      toast.error("Error loading worker logs.");
+      console.error("Couldn't load worker logs:", err);
+      toast.error("Couldn't load worker logs.");
     } finally {
       setLoadingLogs(false);
       console.log("Finished fetching logs.");
@@ -174,7 +178,7 @@ const ProjectDashboard = () => {
     try {
       const res = await fetch(`${API_BASE_URL}/api/v1/projects/${projectId}/tasks`, { headers: authHeaders() });
       if (!res.ok) {
-        toast.warn("Failed to fetch tasks.");
+        toast.warn("Couldn't fetch tasks.");
         return;
       }
       const payload = await res.json();
@@ -226,8 +230,8 @@ const ProjectDashboard = () => {
 
       setProject((prev) => ({ ...prev, materials: normalized }));
     } catch (err) {
-      console.error("❌ Failed to load project materials:", err);
-      toast.error("Failed to load project materials.");
+      console.error("❌ Couldn't load project materials:", err);
+      toast.error("Couldn't load project materials.");
     }
   };
 
@@ -242,8 +246,8 @@ const ProjectDashboard = () => {
       setAssignments(data);
       setProjectWorkers(data.Workers ?? data.workers ?? []);
     } catch (err) {
-      console.error("Error loading assignments:", err);
-      toast.error("Error loading assignments.");
+      console.error("Couldn't load assignments:", err);
+      toast.error("Couldn't load assignments.");
     } finally {
       setLoadingAssignments(false);
     }
@@ -275,8 +279,8 @@ const ProjectDashboard = () => {
       const payload = await res.json();
       setSupervisors(payload.data ?? payload);
     } catch (err) {
-      console.error("Error loading supervisors:", err);
-      toast.error("Error loading supervisors.");
+      console.error("Couldn't load supervisors:", err);
+      toast.error("Couldn't load supervisors.");
     }
   };
 
@@ -290,15 +294,15 @@ const ProjectDashboard = () => {
       });
       const payload = await res.json();
       if (!res.ok) {
-        toast.error(payload.message ?? "Failed to create task.");
+        toast.error(payload.message ?? "Couldn't create task.");
         return;
       }
       toast.success("Task created.");
       fetchTasks();
       setIsAddTaskOpen(false);
     } catch (err) {
-      console.error("Error creating task:", err);
-      toast.error("Error creating task.");
+      console.error("Couldn't create task:", err);
+      toast.error("Couldn't create task.");
     }
   };
 
@@ -315,8 +319,8 @@ const ProjectDashboard = () => {
       fetchAssignments();
       setShowWorkerAssign(false);
     } catch (err) {
-      console.error("Error assigning worker:", err);
-      toast.error("Error assigning worker.");
+      console.error("Couldn't assign worker:", err);
+      toast.error("Couldn't assign worker.");
     }
   };
 
@@ -328,7 +332,7 @@ const ProjectDashboard = () => {
       });
       const payload = await res.json();
       if (!res.ok) {
-        toast.error(payload.message ?? "Failed to assign worker.");
+        toast.error(payload.message ?? "Couldn't assign worker.");
         return;
       }
       toast.success("Worker assigned to task successfully.");
@@ -336,7 +340,7 @@ const ProjectDashboard = () => {
       fetchAssignments();
     } catch (err) {
       console.error(err);
-      toast.error("Error assigning worker to task.");
+      toast.error("Couldn't assign worker to task.");
     }
   };
 
@@ -353,8 +357,8 @@ const ProjectDashboard = () => {
       fetchAssignments();
       setShowSupervisorAssign(false);
     } catch (err) {
-      console.error("Error assigning supervisor:", err);
-      toast.error("Error assigning supervisor.");
+      console.error("Couldn't assign supervisor:", err);
+      toast.error("Couldn't assign supervisor.");
     }
   };
 
@@ -397,15 +401,15 @@ const ProjectDashboard = () => {
       });
       const payload = await res.json();
       if (!res.ok) {
-        toast.error(payload.message ?? "Failed to assign materials.");
+        toast.error(payload.message ?? "Couldn't assign materials.");
         return;
       }
       toast.success("Materials assigned to task.");
       fetchTasks();
       setSelectedTaskMaterials(null);
     } catch (err) {
-      console.error("❌ Error assigning materials:", err);
-      toast.error("Error assigning materials to task.");
+      console.error("❌ Couldn't assign materials:", err);
+      toast.error("Couldn't assign materials to task.");
     }
   };
 
@@ -441,7 +445,7 @@ const ProjectDashboard = () => {
       const payload = await res.json();
 
       if (!res.ok) {
-        toast.error(payload.message ?? "Failed to increase material.");
+        toast.error(payload.message ?? "Couldn't increase material.");
         return;
       }
 
@@ -613,9 +617,16 @@ const ProjectDashboard = () => {
 
       {selectedTaskForWorkers && (
         <ModalShell title={`Workers — ${selectedTaskForWorkers.name}`} onClose={() => setSelectedTaskForWorkers(null)}>
-          <ul>
-            {selectedTaskForWorkers.assignedWorkers.length === 0 ? <li className="muted">No workers assigned</li> : selectedTaskForWorkers.assignedWorkers.map((w, i) => <li key={i}>{w}</li>)}
-          </ul>
+          {selectedTaskForWorkers.assignedWorkers.length === 0 ? (
+            <div style={{ textAlign: "center", padding: "20px", color: "var(--tt-text-muted)" }}>
+              <FiAlertCircle style={{ fontSize: "32px", marginBottom: "10px", display: "block" }} />
+              <p style={{ margin: 0 }}>No workers assigned to this task yet.</p>
+            </div>
+          ) : (
+            <ul>
+              {selectedTaskForWorkers.assignedWorkers.map((w, i) => <li key={i}>{w}</li>)}
+            </ul>
+          )}
 
           <div className="pd-modal-actions">
             <button className="btn btn-outline" onClick={() => setSelectedTaskForWorkers(null)}>

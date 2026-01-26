@@ -2,9 +2,13 @@ import React, { useEffect, useState, useMemo } from "react";
 import WorkerLayout from "../WorkerLayout/WorkerLayout";
 import { useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FiBriefcase, FiLoader } from "react-icons/fi";
 import ReturnMaterialsModal from "../ReturnMaterialsModal/ReturnMaterialsModal";
 import RemainingMaterialsModal from "../RemainingMaterialsModal/RemainingMaterialsModal";
 import TaskSubmissionModal from "../TaskSubmissionModal/TaskSubmissionModal";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import LoadingState from "../UI/LoadingState/LoadingState";
+import ErrorState from "../UI/ErrorState/ErrorState";
 import "./WorkerTasks.css";
 
 export default function WorkerTasksPage() {
@@ -46,7 +50,7 @@ export default function WorkerTasksPage() {
             const data = await res.json();
 
             if (!res.ok || !data?.isSuccess) {
-                toast.error(data?.message || "Error loading tasks");
+                toast.error(data?.message || "Couldn't load tasks");
                 setLoading(false);
                 return;
             }
@@ -246,7 +250,11 @@ export default function WorkerTasksPage() {
         return (
             <WorkerLayout>
                 <div className="wt-page">
-                    <div className="wt-loading">Loading tasks...</div>
+                    <LoadingState
+                        variant="skeleton"
+                        message="Loading your tasks..."
+                        size="medium"
+                    />
                 </div>
             </WorkerLayout>
         );
@@ -261,7 +269,12 @@ export default function WorkerTasksPage() {
                 </header>
 
                 {Object.keys(tasksByProject).length === 0 ? (
-                    <p className="muted">No tasks assigned.</p>
+                    <EmptyState
+                        icon={<FiBriefcase />}
+                        title="No Tasks Assigned"
+                        message="You don't have any tasks assigned yet. Check back later or contact your supervisor."
+                        size="medium"
+                    />
                 ) : (
                     Object.entries(tasksByProject).map(([projId, list]) => {
                         const p = projectsData[projId] ?? {};

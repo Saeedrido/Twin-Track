@@ -55,7 +55,7 @@ const MaterialsModal = ({ onClose, materials = [], onAssign, task }) => {
   // ✅ Submit
   const handleAssign = async () => {
     if (selectedMaterials.length === 0) {
-      toast.error("Select at least one material.");
+      toast.error("Please select at least one material to assign.");
       return;
     }
 
@@ -68,7 +68,7 @@ const MaterialsModal = ({ onClose, materials = [], onAssign, task }) => {
     );
 
     if (invalidQty) {
-      toast.error("Enter valid quantities.");
+      toast.error("Please enter valid quantities for all materials.");
       return;
     }
 
@@ -108,7 +108,7 @@ const MaterialsModal = ({ onClose, materials = [], onAssign, task }) => {
       {/* ✅ Scrollable List */}
       <ul className="materials-select-list">
         {filtered.length === 0 ? (
-          <li className="muted">No materials match your search.</li>
+          <li className="muted">No materials match your search. Try a different term.</li>
         ) : (
           filtered.map((m) => {
             const isSelected = selectedMaterials.some((sm) => sm.id === m.id);

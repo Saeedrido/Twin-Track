@@ -1,0 +1,126 @@
+/**
+ * TwinTrack Design System - Animations
+ * Reusable animations and keyframes
+ */
+
+/* ==================== Fade Animations ==================== */
+@keyframes tt-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes tt-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* ==================== Slide Animations ==================== */
+@keyframes tt-slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes tt-slide-down {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* ==================== Scale Animations ==================== */
+@keyframes tt-scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes tt-scale-out {
+  from {
+    opacity: 1;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+}
+
+/* ==================== Shimmer Loading Effect ==================== */
+@keyframes tt-shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+/* ==================== Spinner Animation ==================== */
+@keyframes tt-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ==================== Pulse Animation ==================== */
+@keyframes tt-pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+/* ==================== Bounce Animation ==================== */
+@keyframes tt-bounce {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+/* ==================== Utility Classes ==================== */
+.tt-animate-fade-in {
+  animation: tt-fade-in var(--tt-transition) ease-out;
+}
+
+.tt-animate-slide-up {
+  animation: tt-slide-up var(--tt-transition) ease-out;
+}
+
+.tt-animate-scale-in {
+  animation: tt-scale-in var(--tt-transition) ease-out;
+}
+
+.tt-animate-pulse {
+  animation: tt-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}

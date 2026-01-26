@@ -7,9 +7,13 @@ import {
   FiSearch,
   FiBell,
   FiFilter,
+  FiUsers,
 } from "react-icons/fi";
 import { toast } from "react-toastify";
 import Sidebar from "../Sidebar/Sidebar";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import ErrorState from "../UI/ErrorState/ErrorState";
+import LoadingState from "../UI/LoadingState/LoadingState";
 import "./WorkersList.css";
 
 const API_BASE_URL = process.env.REACT_APP_API_BASE_URL;
@@ -44,19 +48,17 @@ const WorkersList = () => {
         `${API_BASE_URL}/api/v1/worker/supervisor/${supervisorId}/assigned`,
         { headers: authHeaders() }
       );
-   
+
       const payload = await res.json();
-      console.log("🔥 RAW WORKERS RESPONSE:", payload);
 
       if (!res.ok || !payload?.isSuccess) {
-        toast.error(payload?.message || "Failed to load workers.");
+        toast.error(payload?.message || "Couldn't load workers. Please try again.");
         setFetchError(true);
         return;
       }
 
-      // payload.data is already the array of workers
       if (!Array.isArray(payload.data)) {
-        console.warn("❌ payload.data is not an array", payload.data);
+        console.warn("payload.data is not an array", payload.data);
         setWorkers([]);
         return;
       }
@@ -64,7 +66,7 @@ const WorkersList = () => {
       setWorkers(payload.data);
     } catch (err) {
       console.error(err);
-      toast.error("Unable to load workers.");
+      toast.error("Couldn't load workers. Please check your connection.");
       setFetchError(true);
     } finally {
       setLoadingWorkers(false);
@@ -137,9 +139,9 @@ const WorkersList = () => {
         const failed = results.find((r) => !r.ok);
 
         if (failed) {
-          toast.error(failed.json?.message || "Failed to remove worker from selected project(s).");
+          toast.error(failed.json?.message || "Couldn't remove worker from selected projects.");
         } else {
-          toast.success("Worker removed from selected project(s).");
+          toast.success("Worker removed from selected projects.");
           setSelected({});
           setShowConfirm(false);
           fetchWorkers();
@@ -152,7 +154,6 @@ const WorkersList = () => {
         const taskIds = taskSelections.map((k) => k.split("::")[2]);
 
         const payload = { workerId, projectId, taskIds };
-        console.log("✅ TASK REMOVE PAYLOAD:", payload);
 
         const res = await fetch(`${API_BASE_URL}/api/v1/worker/tasks/remove`, {
           method: "POST",
@@ -163,11 +164,11 @@ const WorkersList = () => {
         const json = await res.json().catch(() => null);
 
         if (!res.ok || (json && !json.isSuccess)) {
-          toast.error(json?.message || "Failed to remove worker from tasks.");
+          toast.error(json?.message || "Couldn't remove worker from tasks.");
           return;
         }
 
-        toast.success("Worker removed from selected task(s).");
+        toast.success("Worker removed from selected tasks.");
         setSelected({});
         setShowConfirm(false);
         fetchWorkers();
@@ -175,7 +176,7 @@ const WorkersList = () => {
       }
     } catch (err) {
       console.error(err);
-      toast.error("An error occurred while removing.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setIsDeleting(false);
     }
@@ -183,7 +184,7 @@ const WorkersList = () => {
 
   const toggleSuspend = async (worker) => {
     try {
-      setSuspendingWorkerId(worker.workerId); // mark this worker as loading
+      setSuspendingWorkerId(worker.workerId);
       const endpoint = worker.suspended ? "retain" : "suspend";
 
       const res = await fetch(`${API_BASE_URL}/api/v1/worker/${worker.workerId}/${endpoint}`, {
@@ -194,16 +195,16 @@ const WorkersList = () => {
       const payload = await res.json().catch(() => null);
 
       if (!res.ok) {
-        toast.error(payload?.message || "Failed action.");
+        toast.error(payload?.message || "Action failed. Please try again.");
         return;
       }
 
-      toast.success(payload?.message ?? "Status updated.");
+      toast.success(payload?.message ?? "Worker status updated.");
       fetchWorkers();
     } catch {
-      toast.error("Error updating worker.");
+      toast.error("Something went wrong. Please try again.");
     } finally {
-      setSuspendingWorkerId(null); // reset after action
+      setSuspendingWorkerId(null);
     }
   };
 
@@ -254,10 +255,43 @@ const WorkersList = () => {
         <section className="content-area">
           <h2 className="page-title">Workers List</h2>
 
-          {loadingWorkers && <p className="muted">Loading workers…</p>}
-          {fetchError && !loadingWorkers && <p className="error-text">Failed to load workers.</p>}
+          {/* Loading State */}
+          {loadingWorkers && (
+            <LoadingState variant="skeleton" message="Loading your workers..." />
+          )}
 
-          {!loadingWorkers && !fetchError && (
+          {/* Error State */}
+          {!loadingWorkers && fetchError && (
+            <ErrorState
+              title="Couldn't Load Workers"
+              message="We had trouble loading your workers. Please check your connection and try again."
+              onRetry={fetchWorkers}
+              size="small"
+            />
+          )}
+
+          {/* Empty State */}
+          {!loadingWorkers && !fetchError && workers.length === 0 && (
+            <EmptyState
+              icon={<FiUsers />}
+              title="No Workers Yet"
+              message="You haven't assigned any workers yet. Add workers to your projects to get started."
+              size="small"
+            />
+          )}
+
+          {/* No Filter Results */}
+          {!loadingWorkers && !fetchError && workers.length > 0 && filteredWorkers.length === 0 && (
+            <EmptyState
+              icon={<FiSearch />}
+              title="No Matching Workers"
+              message="Try adjusting your search or filters to find what you're looking for."
+              size="small"
+            />
+          )}
+
+          {/* Workers Table */}
+          {!loadingWorkers && !fetchError && filteredWorkers.length > 0 && (
             <table className="workers-table">
               <thead>
                 <tr>
@@ -268,82 +302,76 @@ const WorkersList = () => {
                 </tr>
               </thead>
               <tbody>
-                {filteredWorkers.length > 0 ? (
-                  filteredWorkers.map((worker) => (
-                    <tr key={worker.workerId}>
-                      <td>
-                        <div className="worker-info"><FiUser /> {worker.fullName}</div>
-                      </td>
-                      <td>
-                        {worker.projects.map((project) => {
-                          const projectKey = makeKey(worker.workerId, project.projectId);
-                          return (
-                            <div className="project-block" key={project.projectId}>
-                              <strong>
-                                <input
-                                  type="checkbox"
-                                  checked={!!selected[projectKey]}
-                                  onChange={() => toggleSelect(worker.workerId, project.projectId)}
-                                />{" "}
-                                {project.projectName}
-                              </strong>
-                              <ul>
-                                {project.tasks.map((task) => {
-                                  const tKey = makeKey(worker.workerId, project.projectId, task.taskId);
-                                  return (
-                                    <li key={task.taskId}>
-                                      <label>
-                                        <input
-                                          type="checkbox"
-                                          checked={!!selected[tKey]}
-                                          onChange={() => toggleSelect(worker.workerId, project.projectId, task.taskId)}
-                                        />{" "}
-                                        {task.taskName}
-                                      </label>
-                                    </li>
-                                  );
-                                })}
-                              </ul>
-                            </div>
-                          );
-                        })}
-                      </td>
-                      <td>
-                        {worker.projects.map((p) => (
-                          <div key={p.projectId}>{p.supervisorName || "No supervisor"}</div>
-                        ))}
-                      </td>
-                      <td>
-                        <button
-                          className="remove-btn"
-                          onClick={() => handleRemoveClick(worker)}
-                          disabled={isDeleting}
-                        >
-                          {isDeleting && currentWorker?.workerId === worker.workerId ? "Deleting..." : <><FiTrash2 /> Remove</>}
-                        </button>
+                {filteredWorkers.map((worker) => (
+                  <tr key={worker.workerId}>
+                    <td>
+                      <div className="worker-info"><FiUser /> {worker.fullName}</div>
+                    </td>
+                    <td>
+                      {worker.projects.map((project) => {
+                        const projectKey = makeKey(worker.workerId, project.projectId);
+                        return (
+                          <div className="project-block" key={project.projectId}>
+                            <strong>
+                              <input
+                                type="checkbox"
+                                checked={!!selected[projectKey]}
+                                onChange={() => toggleSelect(worker.workerId, project.projectId)}
+                              />{" "}
+                              {project.projectName}
+                            </strong>
+                            <ul>
+                              {project.tasks.map((task) => {
+                                const tKey = makeKey(worker.workerId, project.projectId, task.taskId);
+                                return (
+                                  <li key={task.taskId}>
+                                    <label>
+                                      <input
+                                        type="checkbox"
+                                        checked={!!selected[tKey]}
+                                        onChange={() => toggleSelect(worker.workerId, project.projectId, task.taskId)}
+                                      />{" "}
+                                      {task.taskName}
+                                    </label>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                          </div>
+                        );
+                      })}
+                    </td>
+                    <td>
+                      {worker.projects.map((p) => (
+                        <div key={p.projectId}>{p.supervisorName || "No supervisor"}</div>
+                      ))}
+                    </td>
+                    <td>
+                      <button
+                        className="remove-btn"
+                        onClick={() => handleRemoveClick(worker)}
+                        disabled={isDeleting}
+                      >
+                        {isDeleting && currentWorker?.workerId === worker.workerId ? "Removing..." : <><FiTrash2 /> Remove</>}
+                      </button>
 
-                        <button
-                          className={`suspend-btn ${worker.suspended ? "retain" : "suspend"}`}
-                          onClick={() => toggleSuspend(worker)}
-                          disabled={suspendingWorkerId === worker.workerId}
-                        >
-                          {suspendingWorkerId === worker.workerId
-                            ? worker.suspended
-                              ? "Retaining..."
-                              : "Suspending..."
-                            : worker.suspended
-                              ? <><FiCheck /> Retain</>
-                              : <><FiSlash /> Suspend</>
-                          }
-                        </button>
-                      </td>
-                    </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td colSpan={4} className="no-results">No workers found</td>
+                      <button
+                        className={`suspend-btn ${worker.suspended ? "retain" : "suspend"}`}
+                        onClick={() => toggleSuspend(worker)}
+                        disabled={suspendingWorkerId === worker.workerId}
+                      >
+                        {suspendingWorkerId === worker.workerId
+                          ? worker.suspended
+                            ? "Retaining..."
+                            : "Suspending..."
+                          : worker.suspended
+                            ? <><FiCheck /> Retain</>
+                            : <><FiSlash /> Suspend</>
+                        }
+                      </button>
+                    </td>
                   </tr>
-                )}
+                ))}
               </tbody>
             </table>
           )}
@@ -361,7 +389,7 @@ const WorkersList = () => {
                   Cancel
                 </button>
                 <button className="confirm" onClick={confirmRemove} disabled={isDeleting}>
-                  {isDeleting ? "Deleting..." : "Yes, Remove"}
+                  {isDeleting ? "Removing..." : "Yes, Remove"}
                 </button>
               </div>
             </div>

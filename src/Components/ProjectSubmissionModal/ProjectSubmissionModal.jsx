@@ -32,7 +32,7 @@ export default function ProjectSubmissionModal({ isOpen, onClose, onSubmit, proj
       setPhotos((prev) => [...prev, data.secure_url]);
     } catch (err) {
       console.error("Upload error:", err);
-      setError("Failed to upload image. Try again.");
+      setError("Couldn't upload image. Please try again.");
     } finally {
       setUploading(false);
     }
@@ -46,11 +46,11 @@ export default function ProjectSubmissionModal({ isOpen, onClose, onSubmit, proj
 
   const handleSubmit = () => {
     if (!description.trim()) {
-      setError("Please enter a description.");
+      setError("Please describe what you accomplished.");
       return;
     }
     if (photos.length === 0) {
-      setError("Please upload at least one photo.");
+      setError("Please upload at least one photo of your work.");
       return;
     }
 

@@ -1,5 +1,6 @@
 // src/components/RemainingMaterialsModal/RemainingMaterialsModal.jsx
 import React from "react";
+import {FiBox} from "react-icons/fi";
 import "./RemainingMaterialsModal.css"; // We'll style the modal here
 
 export default function RemainingMaterialsModal({ open, onClose, task, materials }) {
@@ -9,7 +10,7 @@ export default function RemainingMaterialsModal({ open, onClose, task, materials
         <div className="rm-modal-overlay">
             <div className="rm-modal-container">
                 <div className="rm-modal-header">
-                    <h2>Remaining Materials for {task?.name}</h2>
+                    <h2>Materials for {task?.name}</h2>
                     <button className="rm-close-btn" onClick={onClose}>×</button>
                 </div>
 
@@ -19,8 +20,8 @@ export default function RemainingMaterialsModal({ open, onClose, task, materials
                             <thead>
                                 <tr>
                                     <th>Material</th>
-                                    <th>Quantity Assigned</th>
-                                    <th>Quantity Remaining</th>
+                                    <th>Assigned</th>
+                                    <th>Remaining</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -28,13 +29,16 @@ export default function RemainingMaterialsModal({ open, onClose, task, materials
                                     <tr key={idx}>
                                         <td>{m.name}</td>
                                         <td>{m.quantityAssigned}</td>
-                                        <td>{m.remaining}</td>
+                                        <td className={m.remaining > 0 ? "has-remaining" : "empty-qty"}>{m.remaining}</td>
                                     </tr>
                                 ))}
                             </tbody>
                         </table>
                     ) : (
-                        <p className="rm-muted">No remaining materials for this task.</p>
+                        <div className="rm-empty-state">
+                            <FiBox className="rm-empty-icon" />
+                            <p>No materials assigned to this task yet.</p>
+                        </div>
                     )}
                 </div>
 

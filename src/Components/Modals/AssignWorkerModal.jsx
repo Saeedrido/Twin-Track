@@ -46,7 +46,7 @@ const AssignWorkerToTaskModal = ({
       {/* ✅ Scrollable Worker List */}
       <ul className="pd-list assign-worker-list">
         {filtered.length === 0 ? (
-          <li className="muted">No workers found</li>
+          <li className="muted">No workers match your search. Try a different name.</li>
         ) : (
           filtered.map((w) => {
             const isSelected = selected === w.workerId;

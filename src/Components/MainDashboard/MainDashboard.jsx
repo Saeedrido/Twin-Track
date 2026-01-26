@@ -3,6 +3,7 @@ import {
   FiUsers,
   FiBriefcase,
   FiCheckCircle,
+  FiActivity,
 } from "react-icons/fi";
 import {
   LineChart,
@@ -17,6 +18,9 @@ import {
 import Sidebar from "../Sidebar/Sidebar";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import ErrorState from "../UI/ErrorState/ErrorState";
+import LoadingState from "../UI/LoadingState/LoadingState";
 import "./MainDashboard.css";
 
 const MainDashboard = ({ supervisorName = "Supervisor" }) => {
@@ -78,7 +82,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
       if (!payload?.isSuccess || !Array.isArray(payload.data)) {
         setErrorWorkers(true);
-        toast.error("Failed to load workers.");
+        toast.error("Couldn't load workers. Please try again.");
         return;
       }
 
@@ -91,7 +95,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
       setTotalWorkers(unique.size);
     } catch {
       setErrorWorkers(true);
-      toast.error("Failed to load workers.");
+      toast.error("Couldn't load workers. Please check your connection.");
     } finally {
       setLoadingWorkers(false);
     }
@@ -108,7 +112,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
       if (!payload?.isSuccess || !Array.isArray(payload.data)) {
         setErrorMySupervisors(true);
-        toast.error("Failed to load supervisors you assigned.");
+        toast.error("Couldn't load supervisors. Please try again.");
         return;
       }
 
@@ -125,7 +129,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
       setMyAssignedSupervisors(setA.size);
     } catch {
       setErrorMySupervisors(true);
-      toast.error("Failed to load supervisors you assigned.");
+      toast.error("Couldn't load supervisors. Please check your connection.");
     } finally {
       setLoadingMySupervisors(false);
     }
@@ -143,13 +147,12 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
       if (!data?.isSuccess) {
         setErrorProjects(true);
-        toast.error("Failed to load projects.");
+        toast.error("Couldn't load projects. Please try again.");
         return;
       }
 
       const list = data.data || [];
       setProjects(list);
-      console.log("📦 PROJECTS LOADED:", list);
       const supSet = new Set();
 
       let tCount = 0;
@@ -197,7 +200,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
     } catch {
       setErrorProjects(true);
       setErrorSupervisorsToMe(true);
-      toast.error("Failed to load projects.");
+      toast.error("Couldn't load projects. Please check your connection.");
     } finally {
       setLoadingProjects(false);
       setLoadingSupervisorsToMe(false);
@@ -215,9 +218,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
             : new Date(new Date().setMonth(new Date().getMonth() - 1)),
         EndDate: new Date(),
         GroupBy: groupBy,
-        //GroupBy: groupBy
       };
-      console.log("📤 FILTER SENT TO BACKEND:", filter);
       const res = await fetch(`${API_BASE_URL}/api/v1/dashboard/analytics`, {
         method: "POST",
         headers: {
@@ -231,11 +232,9 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
       if (!data?.isSuccess) {
         setErrorAnalytics(true);
-        toast.error("Failed to load analytics.");
+        toast.error("Couldn't load analytics. Please try again.");
         return;
       }
-      console.log("RAW ANALYTICS RESPONSE:", data);
-      console.log("📊 ANALYTICS DATA RECEIVED:", data.data);
 
       // Map your API data to chart-friendly format
       const chartData = data.data.map((d) => ({
@@ -260,7 +259,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
     } catch (err) {
       console.error(err);
       setErrorAnalytics(true);
-      toast.error("Failed to load analytics.");
+      toast.error("Analytics unavailable. Please check your connection.");
     } finally {
       setLoadingAnalytics(false);
     }
@@ -268,11 +267,10 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
   const incompleteTasks = totalTasks - completedTasks;
 
-  // ✅ Skeleton Card Loader
-  const CardLoader = ({ label }) => (
-    <div className="dash-card loading-card">
-      <div className="loading-bar" />
-      <p className="muted" style={{ marginTop: "10px" }}>{label}</p>
+  // ✅ Compact Card Loader
+  const CompactLoader = () => (
+    <div className="dash-card">
+      <LoadingState variant="dots" />
     </div>
   );
 
@@ -283,7 +281,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
       <main className="tt-main">
         <div className="dashboard-header">
           <h1>Welcome, {supervisorName} 👋</h1>
-          <p className="muted">Here’s what’s happening with your projects today.</p>
+          <p className="muted">Here's what's happening with your projects today.</p>
         </div>
 
         {/* ✅ SUMMARY CARDS */}
@@ -291,9 +289,15 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
           {/* ✅ Workers Card */}
           {loadingWorkers ? (
-            <CardLoader label="Loading Total Workers..." />
+            <CompactLoader />
           ) : errorWorkers ? (
-            <CardLoader label="Failed to load workers." />
+            <div className="dash-card dash-card--error">
+              <div className="card-icon workers"><FiUsers /></div>
+              <div>
+                <h2>--</h2>
+                <p>Total Workers</p>
+              </div>
+            </div>
           ) : (
             <div className="dash-card">
               <div className="card-icon workers"><FiUsers /></div>
@@ -306,9 +310,15 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
           {/* ✅ My Assigned Supervisors */}
           {loadingMySupervisors ? (
-            <CardLoader label="Loading Supervisors You Assigned..." />
+            <CompactLoader />
           ) : errorMySupervisors ? (
-            <CardLoader label="Failed to load supervisors you assigned." />
+            <div className="dash-card dash-card--error">
+              <div className="card-icon supervisors"><FiUsers /></div>
+              <div>
+                <h2>--</h2>
+                <p>Supervisors You Assigned</p>
+              </div>
+            </div>
           ) : (
             <div className="dash-card">
               <div className="card-icon supervisors"><FiUsers /></div>
@@ -321,9 +331,15 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
           {/* ✅ Supervisors Assigned To Me */}
           {loadingSupervisorsToMe || loadingProjects ? (
-            <CardLoader label="Loading Supervisors On Your Projects..." />
+            <CompactLoader />
           ) : errorSupervisorsToMe ? (
-            <CardLoader label="Failed to load supervisors on your projects." />
+            <div className="dash-card dash-card--error">
+              <div className="card-icon supervisors"><FiUsers /></div>
+              <div>
+                <h2>--</h2>
+                <p>Supervisors On Your Projects</p>
+              </div>
+            </div>
           ) : (
             <div className="dash-card">
               <div className="card-icon supervisors"><FiUsers /></div>
@@ -336,9 +352,15 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
           {/* ✅ Projects Count */}
           {loadingProjects ? (
-            <CardLoader label="Loading Projects..." />
+            <CompactLoader />
           ) : errorProjects ? (
-            <CardLoader label="Failed to load projects." />
+            <div className="dash-card dash-card--error">
+              <div className="card-icon projects"><FiBriefcase /></div>
+              <div>
+                <h2>--</h2>
+                <p>Projects</p>
+              </div>
+            </div>
           ) : (
             <div className="dash-card">
               <div className="card-icon projects"><FiBriefcase /></div>
@@ -351,9 +373,15 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
 
           {/* ✅ Tasks Count */}
           {loadingProjects ? (
-            <CardLoader label="Loading Tasks..." />
+            <CompactLoader />
           ) : errorProjects ? (
-            <CardLoader label="Failed to load tasks." />
+            <div className="dash-card dash-card--error">
+              <div className="card-icon tasks"><FiCheckCircle /></div>
+              <div>
+                <h2>--</h2>
+                <p>Tasks</p>
+              </div>
+            </div>
           ) : (
             <div className="dash-card">
               <div className="card-icon tasks"><FiCheckCircle /></div>
@@ -392,9 +420,21 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
           <h3>Project & Task Overview</h3>
 
           {loadingAnalytics ? (
-            <div className="analytics-loading">Loading analytics…</div>
+            <LoadingState variant="spinner" message="Loading your analytics..." />
           ) : errorAnalytics ? (
-            <div className="analytics-error">Unable to load analytics.</div>
+            <ErrorState
+              title="Analytics Unavailable"
+              message="We couldn't load your analytics data. Please check your connection and try again."
+              onRetry={fetchAnalytics}
+              size="small"
+            />
+          ) : analyticsData.length === 0 ? (
+            <EmptyState
+              icon={<FiActivity />}
+              title="No Analytics Yet"
+              message="There's no data for the selected time period. Try a different date range."
+              size="small"
+            />
           ) : (
             <ResponsiveContainer width="100%" height={400}>
               <LineChart data={analyticsData}>

@@ -4,6 +4,9 @@ import WorkerLayout from "../WorkerLayout/WorkerLayout";
 import { FiUsers, FiBriefcase, FiCheckCircle } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import LoadingState from "../UI/LoadingState/LoadingState";
+import ErrorState from "../UI/ErrorState/ErrorState";
 import "./WorkerDashboard.css";
 import ProjectSubmissionModal from "../ProjectSubmissionModal/ProjectSubmissionModal";
 
@@ -52,7 +55,7 @@ export default function WorkerDashboard() {
       const data = await res.json();
       if (!data?.isSuccess || !Array.isArray(data.data)) {
         setErrorProjects(true);
-        toast.error("Failed to load projects.");
+        toast.error("Couldn't load projects.");
         return;
       }
 
@@ -65,7 +68,7 @@ export default function WorkerDashboard() {
     } catch (err) {
       console.error(err);
       setErrorProjects(true);
-      toast.error("Failed to load projects.");
+      toast.error("Couldn't load projects.");
     } finally {
       setLoadingProjects(false);
     }
@@ -93,7 +96,7 @@ export default function WorkerDashboard() {
     } catch (err) {
       console.error(err);
       setErrorTasks(true);
-      toast.error("Failed to load tasks.");
+      toast.error("Couldn't load tasks.");
     } finally {
       setLoadingTasks(false);
     }
@@ -121,7 +124,7 @@ export default function WorkerDashboard() {
     } catch (err) {
       console.error(err);
       setErrorSupervisors(true);
-      toast.error("Failed to load supervisors.");
+      toast.error("Couldn't load supervisors.");
     } finally {
       setLoadingSupervisors(false);
     }
@@ -180,8 +183,7 @@ export default function WorkerDashboard() {
 
   const CardLoader = ({ label }) => (
     <div className="dash-card loading-card">
-      <div className="loading-bar" />
-      <p className="muted" style={{ marginTop: 10 }}>{label}</p>
+      <LoadingState variant="skeleton" message={label} size="small" />
     </div>
   );
 
@@ -194,7 +196,7 @@ export default function WorkerDashboard() {
           {loadingProjects ? (
             <CardLoader label="Loading Projects..." />
           ) : errorProjects ? (
-            <CardLoader label="Failed to load projects." />
+            <CardLoader label="Couldn't load projects." />
           ) : (
             <div className="dash-card">
               <FiBriefcase className="card-icon" />
@@ -208,7 +210,7 @@ export default function WorkerDashboard() {
           {loadingTasks ? (
             <CardLoader label="Loading Tasks..." />
           ) : errorTasks ? (
-            <CardLoader label="Failed to load tasks." />
+            <CardLoader label="Couldn't load tasks." />
           ) : (
             <div className="dash-card">
               <FiCheckCircle className="card-icon" />
@@ -238,7 +240,7 @@ export default function WorkerDashboard() {
           {loadingSupervisors ? (
             <CardLoader label="Loading Supervisors..." />
           ) : errorSupervisors ? (
-            <CardLoader label="Failed to load supervisors." />
+            <CardLoader label="Couldn't load supervisors." />
           ) : (
             <div className="dash-card">
               <FiUsers className="card-icon" />
@@ -271,7 +273,12 @@ export default function WorkerDashboard() {
         {/* ===== SCROLLABLE PROJECT LIST ===== */}
         <div className="project-cards-scroll">
           {filteredProjects.length === 0 ? (
-            <p>No projects found.</p>
+            <EmptyState
+              icon={<FiBriefcase />}
+              title="No Projects Found"
+              message="You don't have any projects matching your search. Try a different filter or check back later."
+              size="medium"
+            />
           ) : filteredProjects.map((project) => (
             <div key={project.id} className="project-card">
               <h3>{project.name}</h3>

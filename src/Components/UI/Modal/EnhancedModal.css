@@ -1,0 +1,237 @@
+/**
+ * EnhancedModal Component Styles
+ * Beautiful modal with backdrop blur, smooth animations, and better visual hierarchy
+ */
+
+/* ==================== Backdrop ==================== */
+.tt-enhanced-modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-index: var(--tt-z-modal-backdrop);
+}
+
+/* ==================== Container ==================== */
+.tt-enhanced-modal-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: var(--tt-z-modal);
+  padding: var(--tt-md);
+  overflow-y: auto;
+}
+
+/* ==================== Modal ==================== */
+.tt-enhanced-modal {
+  background: var(--tt-bg-alt);
+  border-radius: var(--tt-radius-lg);
+  box-shadow: var(--tt-shadow-xl);
+  width: 100%;
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Size Variants */
+.tt-enhanced-modal--small {
+  max-width: 400px;
+}
+
+.tt-enhanced-modal--medium {
+  max-width: 600px;
+}
+
+.tt-enhanced-modal--large {
+  max-width: 800px;
+}
+
+.tt-enhanced-modal--fullscreen {
+  max-width: 95vw;
+  max-height: 95vh;
+}
+
+/* ==================== Header ==================== */
+.tt-enhanced-modal__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--tt-lg) var(--tt-xl);
+  border-bottom: 1px solid var(--tt-border);
+  flex-shrink: 0;
+}
+
+.tt-enhanced-modal__header-left {
+  display: flex;
+  align-items: center;
+  gap: var(--tt-md);
+  flex: 1;
+}
+
+.tt-enhanced-modal__icon {
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tt-accent-light);
+  color: var(--tt-accent);
+  border-radius: var(--tt-radius-md);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tt-enhanced-modal__title {
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--tt-text);
+  margin: 0;
+}
+
+/* Close Button */
+.tt-enhanced-modal__close {
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: none;
+  color: var(--tt-text-muted);
+  border-radius: var(--tt-radius-sm);
+  cursor: pointer;
+  transition: var(--tt-transition-fast);
+  font-size: 20px;
+  flex-shrink: 0;
+}
+
+.tt-enhanced-modal__close:hover {
+  background: var(--tt-bg-muted);
+  color: var(--tt-text);
+}
+
+/* ==================== Body ==================== */
+.tt-enhanced-modal__body {
+  padding: var(--tt-xl);
+  overflow-y: auto;
+  flex: 1;
+  -webkit-overflow-scrolling: touch;
+}
+
+.tt-enhanced-modal--small .tt-enhanced-modal__body {
+  padding: var(--tt-lg);
+}
+
+/* ==================== Footer ==================== */
+.tt-enhanced-modal__footer {
+  display: flex;
+  gap: var(--tt-md);
+  padding: var(--tt-lg) var(--tt-xl);
+  border-top: 1px solid var(--tt-border);
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+/* Buttons */
+.tt-enhanced-modal__btn {
+  padding: var(--tt-sm) var(--tt-lg);
+  border-radius: var(--tt-radius-md);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: var(--tt-transition);
+  border: none;
+  min-width: 100px;
+}
+
+.tt-enhanced-modal__btn--primary {
+  background: var(--tt-accent);
+  color: white;
+  box-shadow: var(--tt-shadow-sm);
+}
+
+.tt-enhanced-modal__btn--primary:hover {
+  background: var(--tt-accent-hover);
+  box-shadow: var(--tt-shadow-md);
+  transform: translateY(-1px);
+}
+
+.tt-enhanced-modal__btn--secondary {
+  background: transparent;
+  color: var(--tt-text);
+  border: 1px solid var(--tt-border);
+}
+
+.tt-enhanced-modal__btn--secondary:hover {
+  background: var(--tt-bg-muted);
+  border-color: var(--tt-text-muted);
+}
+
+/* ==================== Responsive Design ==================== */
+@media (max-width: 768px) {
+  .tt-enhanced-modal-container {
+    padding: var(--tt-sm);
+    align-items: flex-end;
+  }
+
+  .tt-enhanced-modal {
+    max-height: 85vh;
+    border-radius: var(--tt-radius-lg) var(--tt-radius-lg) 0 0;
+  }
+
+  .tt-enhanced-modal--small,
+  .tt-enhanced-modal--medium,
+  .tt-enhanced-modal--large {
+    max-width: 100%;
+  }
+
+  .tt-enhanced-modal__header {
+    padding: var(--tt-md) var(--tt-lg);
+  }
+
+  .tt-enhanced-modal__body {
+    padding: var(--tt-lg);
+  }
+
+  .tt-enhanced-modal__footer {
+    padding: var(--tt-md) var(--tt-lg);
+    flex-direction: column-reverse;
+  }
+
+  .tt-enhanced-modal__btn {
+    width: 100%;
+  }
+
+  .tt-enhanced-modal__title {
+    font-size: 18px;
+  }
+}
+
+/* ==================== Scrollbar Styling ==================== */
+.tt-enhanced-modal__body::-webkit-scrollbar {
+  width: 8px;
+}
+
+.tt-enhanced-modal__body::-webkit-scrollbar-track {
+  background: var(--tt-bg-muted);
+  border-radius: var(--tt-radius-sm);
+}
+
+.tt-enhanced-modal__body::-webkit-scrollbar-thumb {
+  background: var(--tt-border);
+  border-radius: var(--tt-radius-sm);
+}
+
+.tt-enhanced-modal__body::-webkit-scrollbar-thumb:hover {
+  background: var(--tt-text-muted);
+}

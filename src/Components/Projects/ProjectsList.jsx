@@ -7,12 +7,16 @@ import {
   FiUser,
   FiSearch,
   FiFilter,
+  FiBriefcase,
 } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../Sidebar/Sidebar";
 import AddNewProject from "../Add-New-Project/AddNewProject";
 import ConfirmDialog from "../ConfirmDialog/ConfirmDialog";
 import ViewAllMaterialsModal from "../ViewAllMaterialsModal/ViewAllMaterialsModal";
+import EmptyState from "../UI/EmptyState/EmptyState";
+import ErrorState from "../UI/ErrorState/ErrorState";
+import LoadingState from "../UI/LoadingState/LoadingState";
 import { toast } from "react-toastify";
 import "./ProjectsList.css";
 
@@ -22,8 +26,8 @@ const ProjectsList = () => {
   const token = localStorage.getItem("authToken");
 
   const [projects, setProjects] = useState([]);
-  const [loadingProjects, setLoadingProjects] = useState(false); // ✅ NEW
-  const [fetchError, setFetchError] = useState(false); // ✅ NEW
+  const [loadingProjects, setLoadingProjects] = useState(false);
+  const [fetchError, setFetchError] = useState(false);
 
   const [isAddProjectOpen, setIsAddProjectOpen] = useState(false);
   const [showDeleteModal, setShowDeleteModal] = useState(false);
@@ -56,10 +60,8 @@ const ProjectsList = () => {
 
         const data = await response.json();
 
-        console.log("Projects fetched from backend:", data);
-
         if (!response.ok) {
-          toast.error(data.message || "Failed to load projects.");
+          toast.error(data.message || "Couldn't load projects. Please try again.");
           setFetchError(true);
           return;
         }
@@ -86,7 +88,7 @@ const ProjectsList = () => {
         }
       } catch (err) {
         console.error("Error fetching projects:", err);
-        toast.error("Unable to load projects. Please try again.");
+        toast.error("Couldn't load projects. Please check your connection.");
         setFetchError(true);
       } finally {
         setLoadingProjects(false);
@@ -134,7 +136,7 @@ const ProjectsList = () => {
 
       // ✅ Check backend success status
       if (!data.isSuccess) {
-        toast.error(data.message || "Failed to delete project.");
+        toast.error(data.message || "Couldn't delete project. Please try again.");
         setShowDeleteModal(false);
         setProjectToDelete(null);
         return;
@@ -147,7 +149,7 @@ const ProjectsList = () => {
 
     } catch (err) {
       console.error(err);
-      toast.error("Error deleting project.");
+      toast.error("Couldn't delete project. Please check your connection.");
     } finally {
       setDeletingProjectId(null);
     }
@@ -170,6 +172,57 @@ const ProjectsList = () => {
 
     return matchesSearch && matchesStatus;
   });
+
+  const refreshProjects = () => {
+    setFetchError(false);
+    setLoadingProjects(true);
+    // Trigger the fetch again by re-running the useEffect logic
+    const fetchProjects = async () => {
+      try {
+        const response = await fetch(
+          `${API_BASE_URL}/api/v1/projects/my-projects`,
+          { headers: authHeaders() }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          toast.error("Couldn't load projects. Please try again.");
+          setFetchError(true);
+          return;
+        }
+
+        if (data.data) {
+          const formattedProjects = data.data.map((p) => ({
+            id: p.id,
+            name: p.name,
+            location: p.location,
+            supervisors: [],
+            startDate: p.startDate || "Not set",
+            materials: [],
+            status:
+              p.status === 0
+                ? "Pending"
+                : p.status === 1
+                  ? "Active"
+                  : p.status === 2
+                    ? "Completed"
+                    : "Pending",
+          }));
+
+          setProjects(formattedProjects);
+        }
+      } catch (err) {
+        console.error("Error fetching projects:", err);
+        toast.error("Couldn't load projects. Please check your connection.");
+        setFetchError(true);
+      } finally {
+        setLoadingProjects(false);
+      }
+    };
+
+    fetchProjects();
+  };
 
   return (
     <div className="tt-dashboard">
@@ -230,32 +283,47 @@ const ProjectsList = () => {
           </button>
         </div>
 
+        {/* ✅ LOADING STATE */}
+        {loadingProjects && (
+          <LoadingState variant="skeleton" message="Loading your projects..." />
+        )}
+
+        {/* ✅ ERROR STATE */}
+        {!loadingProjects && fetchError && (
+          <ErrorState
+            title="Couldn't Load Projects"
+            message="We had trouble loading your projects. Please check your connection and try again."
+            onRetry={refreshProjects}
+          />
+        )}
+
         {/* ✅ PROJECT LIST CARD */}
-        <div className="tt-card">
-          <div className="tt-card-top">
-            <h2>All Projects</h2>
-          </div>
+        {!loadingProjects && !fetchError && (
+          <div className="tt-card">
+            <div className="tt-card-top">
+              <h2>All Projects</h2>
+            </div>
 
-          <div className="tt-card-body">
-            {/* ✅ LOADING */}
-            {loadingProjects && (
-              <p className="muted" style={{ padding: "20px" }}>
-                Loading projects…
-              </p>
-            )}
+            <div className="tt-card-body">
+              {/* ✅ EMPTY STATE */}
+              {filteredProjects.length === 0 && (
+                <EmptyState
+                  icon={<FiBriefcase />}
+                  title={searchQuery || statusFilter !== "All" ? "No Matching Projects" : "No Projects Yet"}
+                  message={
+                    searchQuery || statusFilter !== "All"
+                      ? "Try adjusting your search or filters to find what you're looking for."
+                      : "Get started by creating your first project to track your work."
+                  }
+                  actionLabel={searchQuery || statusFilter !== "All" ? null : "Create Project"}
+                  onAction={() => setIsAddProjectOpen(true)}
+                />
+              )}
 
-            {/* ✅ ERROR FALLBACK */}
-            {fetchError && !loadingProjects && (
-              <p className="error-text" style={{ padding: "20px" }}>
-                Failed to load projects. Please refresh.
-              </p>
-            )}
-
-            {/* ✅ PROJECT GRID */}
-            {!loadingProjects && !fetchError && (
-              <div className="tt-projects-grid">
-                {filteredProjects.length > 0 ? (
-                  filteredProjects.map((proj) => (
+              {/* ✅ PROJECT GRID */}
+              {filteredProjects.length > 0 && (
+                <div className="tt-projects-grid">
+                  {filteredProjects.map((proj) => (
                     <div
                       key={proj.id}
                       className="tt-project-card large"
@@ -297,14 +365,12 @@ const ProjectsList = () => {
                         </button>
                       </div>
                     </div>
-                  ))
-                ) : (
-                  <p className="no-projects">No projects found.</p>
-                )}
-              </div>
-            )}
+                  ))}
+                </div>
+              )}
+            </div>
           </div>
-        </div>
+        )}
       </main>
 
       {/* ✅ Add Project Modal */}
