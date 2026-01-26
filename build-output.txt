@@ -1,0 +1,58 @@
+
+> twintrack@0.1.0 build
+> react-scripts build
+
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+Creating an optimized production build...
+
+[1m[33mwarn[39m[22m - The `content` option in your Tailwind CSS configuration is missing or empty.
+[1m[33mwarn[39m[22m - Configure your content sources or your generated CSS will be missing styles.
+[1m[33mwarn[39m[22m - https://tailwindcss.com/docs/content-configuration
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+Compiled with warnings.
+
+[eslint] 
+src\Components\Login\Login.jsx
+  Line 129:13:  The href attribute requires a valid value to be accessible. Provide a valid, navigable address as the href value. If you cannot provide a valid href, but still need the element to resemble a link, use a button and change it with appropriate styles. Learn more: https://github.com/jsx-eslint/eslint-plugin-jsx-a11y/blob/HEAD/docs/rules/anchor-is-valid.md  jsx-a11y/anchor-is-valid
+
+src\Components\MainDashboard\MainDashboard.jsx
+  Line 54:10:  'startDate' is assigned a value but never used                                                                            no-unused-vars
+  Line 54:21:  'setStartDate' is assigned a value but never used                                                                         no-unused-vars
+  Line 55:10:  'endDate' is assigned a value but never used                                                                              no-unused-vars
+  Line 55:19:  'setEndDate' is assigned a value but never used                                                                           no-unused-vars
+  Line 64:6:   React Hook useEffect has a missing dependency: 'fetchAllDashboardData'. Either include it or remove the dependency array  react-hooks/exhaustive-deps
+
+src\Components\Modals\Add-New-Task.jsx
+  Line 17:6:  React Hook useEffect has missing dependencies: 'fetchProjectWorkers' and 'projectWorkers'. Either include them or remove the dependency array. If 'fetchProjectWorkers' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+src\Components\Modals\AssignSupervisorModal.jsx
+  Line 18:6:  React Hook useEffect has a missing dependency: 'fetchSupervisors'. Either include it or remove the dependency array. If 'fetchSupervisors' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+src\Components\Modals\AssignWorkerModal.jsx
+  Line 17:6:  React Hook useEffect has a missing dependency: 'fetchProjectWorkers'. Either include it or remove the dependency array. If 'fetchProjectWorkers' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+src\Components\Modals\AssignWorkerToProjectModal.jsx
+  Line 17:6:  React Hook useEffect has missing dependencies: 'allWorkers' and 'fetchAllWorkers'. Either include them or remove the dependency array. If 'fetchAllWorkers' changes too often, find the parent component that defines it and wrap that definition in useCallback  react-hooks/exhaustive-deps
+
+Search for the keywords to learn more about each warning.
+To ignore, add // eslint-disable-next-line to the line before.
+
+File sizes after gzip:
+
+  279.51 kB  build\static\js\main.c8fc5212.js
+  47 kB      build\static\css\main.8c00b1f2.css
+  1.76 kB    build\static\js\453.bea8b1a6.chunk.js
+
+The project was built assuming it is hosted at /.
+You can control this with the homepage field in your package.json.
+
+The build folder is ready to be deployed.
+You may serve it with a static server:
+
+  npm install -g serve
+  serve -s build
+
+Find out more about deployment here:
+
+  https://cra.link/deployment
+

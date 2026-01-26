@@ -51,8 +51,6 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
   const [analyticsData, setAnalyticsData] = useState([]);
   const [timeFilter, setTimeFilter] = useState("last-month");
   const [groupBy, setGroupBy] = useState("day");
-  const [startDate, setStartDate] = useState(null);
-  const [endDate, setEndDate] = useState(null);
 
   const token = localStorage.getItem("authToken");
   const userId = localStorage.getItem("userId");
@@ -61,6 +59,7 @@ const MainDashboard = ({ supervisorName = "Supervisor" }) => {
     if (!token) return;
 
     fetchAllDashboardData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [timeFilter, groupBy, token]);
 
   const fetchAllDashboardData = () => {

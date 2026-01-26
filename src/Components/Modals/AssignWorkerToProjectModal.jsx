@@ -14,6 +14,7 @@ const AssignWorkerToProjectModal = ({
 
   useEffect(() => {
     if (!allWorkers || allWorkers.length === 0) fetchAllWorkers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const filtered = Array.isArray(allWorkers)

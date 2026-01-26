@@ -14,6 +14,7 @@ const AddTaskModal = ({ projectId, onClose, onCreate, fetchProjectWorkers, proje
 
   useEffect(() => {
     if (!projectWorkers || projectWorkers.length === 0) fetchProjectWorkers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleCreate = async () => {

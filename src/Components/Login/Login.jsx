@@ -126,7 +126,7 @@ const Login = () => {
           )}
 
           <div className="text-end mb-3">
-            <a href="#" className="text-decoration-none forgot-password">
+            <a href="/forgot-password" className="text-decoration-none forgot-password">
               Forgot Password?
             </a>
           </div>

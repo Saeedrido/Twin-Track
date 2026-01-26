@@ -15,6 +15,7 @@ const AssignSupervisorModal = ({
 
   useEffect(() => {
     fetchSupervisors();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const existing = projectAssignments?.supervisors ?? [];
