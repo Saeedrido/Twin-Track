@@ -75,6 +75,7 @@ const WorkersList = () => {
 
   useEffect(() => {
     fetchWorkers();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const makeKey = (workerId, projectId, taskId = null) =>
