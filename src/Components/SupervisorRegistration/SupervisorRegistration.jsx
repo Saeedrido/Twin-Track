@@ -56,7 +56,6 @@ const SupervisorRegistration = () => {
           body: JSON.stringify(formData),
         }
       );
-
       console.log("🧾 Response status:", res.status);
       const text = await res.text();
       console.log("🧾 Raw response:", text);
