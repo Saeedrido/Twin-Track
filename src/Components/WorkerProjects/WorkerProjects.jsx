@@ -71,56 +71,6 @@ export default function WorkerProjects() {
     fetchWorkerProjects();
   }, [token, fetchWorkerProjects]);
 
-  const fetchWorkerProjects = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/projects/my-projects`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-
-      if (!data?.isSuccess || !Array.isArray(data.data)) {
-        setError(true);
-        toast.error("Couldn't load projects.");
-        return;
-      }
-
-      setProjects(data.data);
-      setError(false);
-
-      // Fetch tasks for all projects
-      fetchAllTasks(data.data);
-    } catch (err) {
-      console.error(err);
-      setError(true);
-      toast.error("Couldn't load projects.");
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  const fetchAllTasks = async (projectList) => {
-    try {
-      let allTasks = [];
-      for (const proj of projectList) {
-        try {
-          const res = await fetch(`${API_BASE_URL}/api/v1/projects/${proj.id}/tasks`, {
-            headers: { Authorization: `Bearer ${token}` },
-          });
-          const data = await res.json();
-          if (data?.isSuccess && Array.isArray(data.data)) {
-            allTasks = allTasks.concat(
-              data.data.map((t) => ({ ...t, projectId: proj.id }))
-            );
-          }
-        } catch { }
-      }
-      setTasks(allTasks);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
   const filteredProjects = projects.filter((proj) => {
     const matchesSearch = proj.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesFilter = filterStatus === "all" || proj.status === filterStatus;

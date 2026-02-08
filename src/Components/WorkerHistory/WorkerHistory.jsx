@@ -43,30 +43,6 @@ export default function WorkerHistory() {
     fetchWorkerHistory();
   }, [token, userId, fetchWorkerHistory]);
 
-  const fetchWorkerHistory = async () => {
-    setLoading(true);
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/v1/worker/${userId}/history`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      const data = await res.json();
-
-      if (!res.ok || !data?.isSuccess) {
-        setError(true);
-        toast.error(data?.message || "Couldn't load history");
-        return;
-      }
-
-      setHistoryData(data.data || []);
-    } catch (err) {
-      console.error(err);
-      setError(true);
-      toast.error("Network error loading history");
-    } finally {
-      setLoading(false);
-    }
-  };
-
   if (loading) {
     return (
       <WorkerLayout>
