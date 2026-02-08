@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WorkerLayout from "../WorkerLayout/WorkerLayout";
 import { FiBriefcase } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
@@ -16,14 +16,60 @@ export default function WorkerProjects() {
   const [projects, setProjects] = useState([]);
   const [tasks, setTasks] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const [filterStatus, setFilterStatus] = useState("all");
+
+  const fetchAllTasks = useCallback(async (projectList) => {
+    try {
+      let allTasks = [];
+      for (const proj of projectList) {
+        try {
+          const res = await fetch(`${API_BASE_URL}/api/v1/projects/${proj.id}/tasks`, {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          const data = await res.json();
+          if (data?.isSuccess && Array.isArray(data.data)) {
+            allTasks = allTasks.concat(
+              data.data.map((t) => ({ ...t, projectId: proj.id }))
+            );
+          }
+        } catch { }
+      }
+      setTasks(allTasks);
+    } catch (err) {
+      console.error(err);
+    }
+  }, [API_BASE_URL, token]);
+
+  const fetchWorkerProjects = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/projects/my-projects`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+
+      if (!data?.isSuccess || !Array.isArray(data.data)) {
+        toast.error("Couldn't load projects.");
+        return;
+      }
+
+      setProjects(data.data);
+
+      // Fetch tasks for all projects
+      fetchAllTasks(data.data);
+    } catch (err) {
+      console.error(err);
+      toast.error("Couldn't load projects.");
+    } finally {
+      setLoading(false);
+    }
+  }, [API_BASE_URL, token, fetchAllTasks]);
 
   useEffect(() => {
     if (!token) return;
     fetchWorkerProjects();
-  }, [token]);
+  }, [token, fetchWorkerProjects]);
 
   const fetchWorkerProjects = async () => {
     setLoading(true);

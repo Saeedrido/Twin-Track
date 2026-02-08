@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import WorkerLayout from "../WorkerLayout/WorkerLayout";
-import { FiBriefcase, FiCheckCircle, FiClock, FiAlertCircle } from "react-icons/fi";
+import { FiBriefcase, FiCheckCircle, FiClock } from "react-icons/fi";
 import { toast } from "react-toastify";
 import EmptyState from "../UI/EmptyState/EmptyState";
 import LoadingState from "../UI/LoadingState/LoadingState";
@@ -14,10 +14,34 @@ export default function WorkerHistory() {
   const token = localStorage.getItem("authToken");
   const userId = localStorage.getItem("userId");
 
+  const fetchWorkerHistory = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/v1/worker/${userId}/history`, {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await res.json();
+
+      if (!res.ok || !data?.isSuccess) {
+        setError(true);
+        toast.error(data?.message || "Couldn't load history");
+        return;
+      }
+
+      setHistoryData(data.data || []);
+    } catch (err) {
+      console.error(err);
+      setError(true);
+      toast.error("Network error loading history");
+    } finally {
+      setLoading(false);
+    }
+  }, [API_BASE_URL, token, userId]);
+
   useEffect(() => {
     if (!token || !userId) return;
     fetchWorkerHistory();
-  }, [token, userId]);
+  }, [token, userId, fetchWorkerHistory]);
 
   const fetchWorkerHistory = async () => {
     setLoading(true);
