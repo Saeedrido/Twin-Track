@@ -94,9 +94,17 @@ const SupervisorRegistration = () => {
     >
       <div
         className="registration-card shadow-lg p-4 bg-white rounded-4"
-        style={{ width: "100%", maxWidth: "650px" }}
+        style={{ width: "100%", maxWidth: "650px", margin: "0 auto" }}
       >
         <div className="text-center mb-4">
+          <img
+            src={`${process.env.PUBLIC_URL}/Images/Twin-track-logo.jpg`}
+            alt="TwinTrack Logo"
+            className="mb-2"
+            style={{ maxWidth: "80px", width: "100%" }}
+          />
+          <h3 className="fw-bold fs-4">Supervisor Registration</h3>
+          <p className="text-muted small mb-0">
           <img
             src={`${process.env.PUBLIC_URL}/Images/Twin-track-logo.jpg`}
             alt="TwinTrack Logo"
