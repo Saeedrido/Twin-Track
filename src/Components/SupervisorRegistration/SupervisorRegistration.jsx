@@ -115,6 +115,7 @@ const SupervisorRegistration = () => {
           <p className="text-muted small mb-0">
             Manage your team with TwinTrack
           </p>
+          </p>
         </div>
 
         <form onSubmit={handleSubmit}>
