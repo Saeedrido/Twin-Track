@@ -315,19 +315,19 @@ export default function WorkerDashboard() {
 
         {/* ===== QUICK ACTIONS ROW ===== */}
         <div className="quick-actions-row">
-          <div className="quick-big-card" onClick={() => handleNavigate("/projects")}>
+          <div className="quick-big-card" onClick={() => handleNavigate(`/worker/projects/${currentWorkerId}`)}>
             <FiBriefcase className="quick-big-icon" />
             <h3>View Projects</h3>
           </div>
 
-          <div className="quick-big-card" onClick={() => handleNavigate("/tasks")}>
+          <div className="quick-big-card" onClick={() => handleNavigate(`/worker/${currentWorkerId}/tasks`)}>
             <FiCheckCircle className="quick-big-icon" />
-            <h3>View My Tasks</h3>
+            <h3>View Tasks</h3>
           </div>
 
-          <div className="quick-big-card" onClick={() => handleNavigate("/supervisors")}>
+          <div className="quick-big-card" onClick={() => handleNavigate(`/worker/history/${currentWorkerId}`)}>
             <FiUsers className="quick-big-icon" />
-            <h3>View Supervisors</h3>
+            <h3>History</h3>
           </div>
         </div>
       </div>

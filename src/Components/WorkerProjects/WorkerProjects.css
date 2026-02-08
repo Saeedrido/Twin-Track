@@ -1,0 +1,158 @@
+.worker-projects-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.projects-header {
+  margin-bottom: 24px;
+}
+
+.projects-header h2 {
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  color: var(--tt-text);
+}
+
+.projects-header .muted {
+  color: var(--tt-text-muted);
+  margin: 0;
+}
+
+/* Search & Filter */
+.projects-controls {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.projects-controls input,
+.projects-controls select {
+  padding: 10px 12px;
+  border: 1px solid var(--tt-border);
+  border-radius: var(--tt-radius-sm);
+  font-size: 14px;
+  background: white;
+  color: var(--tt-text);
+}
+
+.projects-controls input {
+  flex: 1;
+}
+
+/* Projects Grid */
+.projects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+.project-card {
+  background: white;
+  border-radius: var(--tt-radius-md);
+  padding: 20px;
+  box-shadow: var(--tt-shadow-sm);
+  transition: var(--tt-transition);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.project-card:hover {
+  box-shadow: var(--tt-shadow-md);
+  transform: translateY(-2px);
+}
+
+.project-card h3 {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--tt-text);
+}
+
+.project-meta {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.meta-item {
+  font-size: 14px;
+  color: var(--tt-text-muted);
+}
+
+.meta-item strong {
+  color: var(--tt-text);
+}
+
+.project-status {
+  margin: 0;
+  font-size: 13px;
+  color: var(--tt-text-muted);
+  padding: 4px 12px;
+  background: var(--tt-bg-muted);
+  border-radius: var(--tt-radius-full);
+  align-self: flex-start;
+}
+
+.project-description {
+  margin: 0;
+  font-size: 14px;
+  color: var(--tt-text-muted);
+  flex: 1;
+}
+
+.project-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.btn {
+  padding: 10px 16px;
+  border-radius: var(--tt-radius-sm);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: var(--tt-transition);
+}
+
+.btn-primary {
+  background: var(--tt-accent);
+  color: white;
+  width: 100%;
+}
+
+.btn-primary:hover {
+  background: var(--tt-accent-hover);
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .worker-projects-container {
+    padding: 16px;
+  }
+
+  .projects-header h2 {
+    font-size: 20px;
+  }
+
+  .projects-controls {
+    flex-direction: column;
+  }
+
+  .projects-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .project-card {
+    padding: 16px;
+  }
+
+  .project-card h3 {
+    font-size: 16px;
+  }
+}

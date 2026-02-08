@@ -57,7 +57,7 @@ export default function WorkerLayout({ children }) {
         <nav style={styles.navContainer}>
           <a href={`/WorkerDashboard/${userId}`} style={styles.navItem}>Dashboard</a>
           <a href={`/worker/projects/${userId}`} style={styles.navItem}>My Projects</a>
-          <a href={`/worker/tasks/${userId}`} style={styles.navItem}>My Tasks</a>
+          <a href={`/worker/${userId}/tasks`} style={styles.navItem}>My Tasks</a>
           <a href={`/worker/history/${userId}`} style={styles.navItem}>History</a>
         </nav>
 

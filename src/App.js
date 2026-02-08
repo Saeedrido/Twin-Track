@@ -20,7 +20,9 @@ import Landing from "./Components/Landing/Landing";
 import RegisterSupervisor from "./Components/SupervisorRegistration/SupervisorRegistration";
 import RegisterWorker from "./Components/WorkerRegistration/WorkerRegistration";
 import WorkerDashboard from "./Components/WorkerDashboard/WorkerDashboard";
+import WorkerProjects from "./Components/WorkerProjects/WorkerProjects";
 import WorkerTasks from "./Components/WorkerTasks/WorkerTasks";
+import WorkerHistory from "./Components/WorkerHistory/WorkerHistory";
 
 function App() {
   const [showHome] = useState(true);
@@ -51,12 +53,15 @@ function App() {
           <Route path="/MainDashboard/:userId" element={<Dashboard />} />
           <Route path="/WorkerDashboard/:userId" element={<WorkerDashboard />} />
           <Route path="/projects/:userId" element={<ProjectsList />} />
+          <Route path="/worker/projects/:userId" element={<WorkerProjects />} />
           <Route path="/project/:id/:userId" element={<ProjectDashboard />} />
           <Route path="/workers/:userId" element={<WorkersList />} />
           <Route path="/supervisors/:userId" element={<SupervisorsList />} />
           <Route path="/register-supervisor" element={<RegisterSupervisor />} />
           <Route path="/register-worker" element={<RegisterWorker />} />
+          <Route path="/worker/:workerId/tasks" element={<WorkerTasks />} />
           <Route path="/worker/:workerId/project/:projectId/tasks" element={<WorkerTasks />} />
+          <Route path="/worker/history/:workerId" element={<WorkerHistory />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Landing" element={<Landing />} />
         </Routes>

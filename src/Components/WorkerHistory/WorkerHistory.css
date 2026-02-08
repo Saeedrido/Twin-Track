@@ -1,0 +1,137 @@
+/* ===== WORKER HISTORY PAGE STYLES ===== */
+.worker-history-container {
+  padding: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.history-header {
+  margin-bottom: 24px;
+}
+
+.history-header h2 {
+  font-size: 24px;
+  margin: 0 0 8px 0;
+  color: var(--tt-text);
+}
+
+.history-header .muted {
+  color: var(--tt-text-muted);
+  margin: 0;
+}
+
+/* ===== HISTORY LIST ===== */
+.history-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.history-card {
+  background: white;
+  border-radius: var(--tt-radius-md);
+  padding: 16px;
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  box-shadow: var(--tt-shadow-sm);
+  transition: var(--tt-transition);
+}
+
+.history-card:hover {
+  box-shadow: var(--tt-shadow-md);
+  transform: translateY(-2px);
+}
+
+.history-icon {
+  font-size: 24px;
+  color: var(--tt-success);
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--tt-success-light);
+  border-radius: var(--tt-radius-sm);
+}
+
+.history-content {
+  flex: 1;
+}
+
+.history-content h3 {
+  margin: 0 0 4px 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: var(--tt-text);
+}
+
+.history-project {
+  margin: 0 0 8px 0;
+  font-size: 14px;
+  color: var(--tt-text-muted);
+}
+
+.history-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.history-date {
+  font-size: 13px;
+  color: var(--tt-text-light);
+}
+
+.status-badge {
+  padding: 4px 12px;
+  border-radius: var(--tt-radius-full);
+  font-size: 12px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-badge.completed {
+  background: var(--tt-success-light);
+  color: var(--tt-success);
+}
+
+.status-badge.pending,
+.status-badge.inprogress {
+  background: var(--tt-warning-light);
+  color: var(--tt-warning);
+}
+
+.status-badge.rejected {
+  background: var(--tt-danger-light);
+  color: var(--tt-danger);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .worker-history-container {
+    padding: 16px;
+  }
+
+  .history-header h2 {
+    font-size: 20px;
+  }
+
+  .history-card {
+    padding: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .history-content h3 {
+    font-size: 15px;
+  }
+
+  .history-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+}
